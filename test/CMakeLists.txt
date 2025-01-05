@@ -52,6 +52,7 @@ TEST(_BeginTest, GoogleTest)
 }
 ")
 
+# TESTS_FILESにsrc以下のファイルをすべて格納
 CollectFiles("${CMAKE_SOURCE_DIR}/test/src" TESTS_FILES)
 
 # srcディレクトリ以下の構成をフィルタに変換
@@ -79,19 +80,19 @@ set_target_properties(test gmock gtest gmock_main gtest_main PROPERTIES
 )
 
 
-  
-
 # テストターゲットの出力ディレクトリを統一
 set(GLOBAL_TEST_BIN_DIR "${CMAKE_BINARY_DIR}/tests/bin")
 set(GLOBAL_TEST_LIB_DIR "${CMAKE_BINARY_DIR}/tests/lib")
 
 set_target_properties(test PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${GLOBAL_TEST_BIN_DIR}"
-    LIBRARY_OUTPUT_DIRECTORY "${GLOBAL_TEST_LIB_DIR}"
-    ARCHIVE_OUTPUT_DIRECTORY "${GLOBAL_TEST_LIB_DIR}"
+RUNTIME_OUTPUT_DIRECTORY "${GLOBAL_TEST_BIN_DIR}"
+LIBRARY_OUTPUT_DIRECTORY "${GLOBAL_TEST_LIB_DIR}"
+ARCHIVE_OUTPUT_DIRECTORY "${GLOBAL_TEST_LIB_DIR}"
 )
 
 # 必ず使用するヘッダを設定
 target_compile_options(test PRIVATE 
-  /FI"${PROJ_NAME}.hpp"
+/FI"${PROJ_NAME}.hpp"
 )
+
+add_test(NAME RunAllTests COMMAND test)
