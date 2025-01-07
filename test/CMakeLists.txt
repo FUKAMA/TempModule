@@ -66,7 +66,7 @@ add_executable(test ${TESTS_FILES})
 # インポートしたGoogleTestのライブラリをテストプロジェクトにリンク
 target_link_libraries(test gtest_main)
 # インポートしたGoogleTestのヘッダを必ずインクルードするように変更
-target_include_directories(test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+# target_include_directories(test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # メインプロジェクトのインクルードディレクトリとソースのルートディレクトリをインクルードディレクトリに追加
 target_include_directories(test PRIVATE "${CMAKE_SOURCE_DIR}/main/include" "${CMAKE_SOURCE_DIR}/main/src" "${googletest_SOURCE_DIR}/googletest/include")
@@ -95,7 +95,7 @@ ARCHIVE_OUTPUT_DIRECTORY "${GLOBAL_TEST_LIB_DIR}"
 
 # 必ず使用するヘッダを設定
 target_compile_options(test PRIVATE 
-/FI"${PROJ_NAME}.hpp"f
+/FI"${PROJ_NAME}.hpp"
 )
 
 
