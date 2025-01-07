@@ -92,7 +92,13 @@ ARCHIVE_OUTPUT_DIRECTORY "${GLOBAL_TEST_LIB_DIR}"
 
 # 必ず使用するヘッダを設定
 target_compile_options(test PRIVATE 
-/FI"${PROJ_NAME}.hpp"
+/FI"${PROJ_NAME}.hpp"f
 )
 
-add_test(NAME RunAllTests COMMAND test)
+
+# ファイルをひとつづつ取り出してテストを追加する
+foreach(FILE_PATH IN LISTS TESTS_FILES)
+  add_test(NAME ${FILE_PATH} COMMAND test)
+endforeach()
+
+enable_testing()
