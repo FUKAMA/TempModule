@@ -69,7 +69,10 @@ target_link_libraries(test gtest_main)
 target_include_directories(test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # メインプロジェクトのインクルードディレクトリとソースのルートディレクトリをインクルードディレクトリに追加
-target_include_directories(test PRIVATE "${CMAKE_SOURCE_DIR}/main/include" "${CMAKE_SOURCE_DIR}/main/src")
+target_include_directories(test PRIVATE "${CMAKE_SOURCE_DIR}/main/include" "${CMAKE_SOURCE_DIR}/main/src" "${googletest_SOURCE_DIR}/googletest/include")
+
+# target_include_directories(test PRIVATE ${googletest_SOURCE_DIR}/googletest/include)
+
 
 # テストターゲットの出力ディレクトリを指定
 # GoogleTest関連ターゲットの出力ディレクトリを指定
@@ -95,11 +98,10 @@ target_compile_options(test PRIVATE
 /FI"${PROJ_NAME}.hpp"f
 )
 
-target_include_directories(test PRIVATE ${googletest_SOURCE_DIR}/googletest/include)
 
 # ファイルをひとつづつ取り出してテストを追加する
 foreach(FILE_PATH IN LISTS TESTS_FILES)
-  add_test(NAME ${FILE_PATH} COMMAND test)
+add_test(NAME ${FILE_PATH} COMMAND test)
 endforeach()
 
 enable_testing()
