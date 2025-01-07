@@ -1,0 +1,10 @@
+^C:\PROJECTS\MODBUILD\TESTMOD\_DEPS\GOOGLETEST-SUBBUILD\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Projects/modbuild/TestMod/_deps/googletest-subbuild -BC:/Projects/modbuild/TestMod/_deps/googletest-subbuild --check-stamp-file C:/Projects/modbuild/TestMod/_deps/googletest-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
