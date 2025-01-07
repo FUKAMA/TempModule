@@ -79,6 +79,15 @@ set_target_properties(test gmock gtest gmock_main gtest_main PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/build/tests/lib"
 )
 
+get_target_property(GTEST_INCLUDE_DIRS gtest INTERFACE_INCLUDE_DIRECTORIES)
+message("GoogleTest include directories: ${GTEST_INCLUDE_DIRS}")
+
+# プロジェクトのルートにヘッダーを配置する場合
+target_include_directories(test
+    PRIVATE
+    ${CMAKE_SOURCE_DIR}/Import/googletest/include
+)
+
 
 # テストターゲットの出力ディレクトリを統一
 set(GLOBAL_TEST_BIN_DIR "${CMAKE_BINARY_DIR}/tests/bin")
