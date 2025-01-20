@@ -31,8 +31,8 @@ endif()
 #------------------------------------
 
 # インクルード用のヘッダファイルが無ければ作成
-if(NOT EXISTS "${CMAKE_SOURCE_DIR}/main/include/${PROJ_NAME}.hpp")
-  file(WRITE "${CMAKE_SOURCE_DIR}/main/include/${PROJ_NAME}.hpp" 
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/main/include/${PROJ_NAME}.hpp")
+  file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/main/include/${PROJ_NAME}.hpp" 
   "// ${PROJ_NAME}のインクルード用ヘッダ
 
 #if defined(STATIC) // 静的ライブラリの場合は空にする
@@ -46,8 +46,8 @@ if(NOT EXISTS "${CMAKE_SOURCE_DIR}/main/include/${PROJ_NAME}.hpp")
 endif()
 
 # プリコンパイルヘッダが無ければ作成
-if(NOT EXISTS "${CMAKE_SOURCE_DIR}/main/src/pch.hpp")
-  file(WRITE "${CMAKE_SOURCE_DIR}/main/src/pch.hpp" 
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/main/src/pch.hpp")
+  file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/main/src/pch.hpp" 
 "//============================================
 // プリコンパイル済みヘッダ
 //============================================
@@ -55,22 +55,22 @@ if(NOT EXISTS "${CMAKE_SOURCE_DIR}/main/src/pch.hpp")
 // インクルード用ヘッダ
 #include \"${PROJ_NAME}.hpp\"
 ")
-  file(WRITE "${CMAKE_SOURCE_DIR}/main/src/pch.cpp" "#include \"pch.hpp\"\n")
+  file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/main/src/pch.cpp" "#include \"pch.hpp\"\n")
 endif()
 
 # pch.cppにプリコンパイル済みヘッダ作成フラグを設定
 set_source_files_properties(
-    "${CMAKE_SOURCE_DIR}/main/src/pch.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/main/src/pch.cpp"
     PROPERTIES COMPILE_FLAGS "/Ycpch.hpp"
 )
 
 # ソースとヘッダーファイルを収集
-CollectFiles("${CMAKE_SOURCE_DIR}/main/include" INCLUDE_FILES)
-CollectFiles("${CMAKE_SOURCE_DIR}/main/src" SRC_FILES)
+CollectFiles("${CMAKE_CURRENT_SOURCE_DIR}/main/include" INCLUDE_FILES)
+CollectFiles("${CMAKE_CURRENT_SOURCE_DIR}/main/src" SRC_FILES)
 
 # # フィルタ構造を作成
-CreateFilters("${CMAKE_SOURCE_DIR}/main/include")
-CreateFilters("${CMAKE_SOURCE_DIR}/main/src")
+CreateFilters("${CMAKE_CURRENT_SOURCE_DIR}/main/include")
+CreateFilters("${CMAKE_CURRENT_SOURCE_DIR}/main/src")
 
 
 # 
@@ -92,8 +92,8 @@ target_compile_definitions(${PROJ_NAME} PRIVATE
 
 # インクルードディレクトリをターゲットに設定
 target_include_directories(${PROJ_NAME} PUBLIC 
-  "${CMAKE_SOURCE_DIR}/main/include"
-  "${CMAKE_SOURCE_DIR}/main/src"
+  "${CMAKE_CURRENT_SOURCE_DIR}/main/include"
+  "${CMAKE_CURRENT_SOURCE_DIR}/main/src"
 )
 
 # 必ず使用するヘッダを設定
@@ -101,3 +101,9 @@ target_compile_options(${PROJ_NAME} PRIVATE
   /FI"pch.hpp"
   /FI"${PROJ_NAME}.hpp"
 )
+
+# projDataのmodulesにある全てのモジュールとリンク
+
+
+
+
