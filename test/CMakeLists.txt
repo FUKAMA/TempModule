@@ -67,13 +67,9 @@ CreateFilters("${CMAKE_CURRENT_SOURCE_DIR}/test/src")
 add_executable(test ${TESTS_FILES})
 # インポートしたGoogleTestのライブラリをテストプロジェクトにリンク
 target_link_libraries(test gtest_main)
-# インポートしたGoogleTestのヘッダを必ずインクルードするように変更
-# target_include_directories(test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # メインプロジェクトのインクルードディレクトリとソースのルートディレクトリをインクルードディレクトリに追加
 target_include_directories(test PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/main/include" "${CMAKE_SOURCE_DIR}/main/src" "${googletest_SOURCE_DIR}/googletest/include")
-
-# target_include_directories(test PRIVATE ${googletest_SOURCE_DIR}/googletest/include)
 
 
 # テストターゲットの出力ディレクトリを指定
@@ -95,11 +91,7 @@ RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/build/bin"
 LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/build/lib"
 ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/build/lib"
 )
-# set_target_properties(test PROPERTIES
-# RUNTIME_OUTPUT_DIRECTORY "${GLOBAL_TEST_BIN_DIR}"
-# LIBRARY_OUTPUT_DIRECTORY "${GLOBAL_TEST_LIB_DIR}"
-# ARCHIVE_OUTPUT_DIRECTORY "${GLOBAL_TEST_LIB_DIR}"
-# )
+
 
 # 必ず使用するヘッダを設定
 target_compile_options(test PRIVATE 

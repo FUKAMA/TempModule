@@ -12,7 +12,6 @@
 cmake_minimum_required(VERSION 3.29.3)
 
 # Utilityをインクルード
-# include("../cmake/Utility.cmake")
 include("../cmake/Utility/FileFilter.cmake")
 
 
@@ -72,7 +71,6 @@ CollectFiles("${CMAKE_CURRENT_SOURCE_DIR}/main/src" SRC_FILES)
 CreateFilters("${CMAKE_CURRENT_SOURCE_DIR}/main/include")
 CreateFilters("${CMAKE_CURRENT_SOURCE_DIR}/main/src")
 
-
 # 
 #--------------------------------------------------
 
@@ -105,57 +103,33 @@ target_compile_options(${PROJ_NAME} PRIVATE
 # projDataのmodulesにある全てのモジュールとリンク
 #---------------------------------------------------------
   
-# リンクするライブラリの情報が格納されてるJsonファイルのパスを変数にセット
-set(LIBS_JSON_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries.json")
+# # リンクするライブラリの情報が格納されてるJsonファイルのパスを変数にセット
+# set(LIBS_JSON_PATH "${CMAKE_CURRENT_SOURCE_DIR}/projData.json")
   
-# Jsonファイルを読み込む
-file(READ ${LIBS_JSON_PATH} JSON_CONTENT)
+# # Jsonファイルを読み込む
+# file(READ ${LIBS_JSON_PATH} JSON_CONTENT)
   
-# Jsonファイルを解析
-file(JSON JSON_DATA PARSE ${JSON_CONTENT})
+# # Jsonファイルを解析
+# file(JSON JSON_DATA PARSE ${JSON_CONTENT})
   
-# Jsonからライブラリの情報を取得
-set(LIBRARIES_LIST)
-# librariesキーの要素をJSON_LIBRARIES変数にセット
-file(JSON JSON_LIBRARIES GET ${JSON_DATA} libraries)
+# # Jsonからライブラリの情報を取得
+# set(LIBRARIES_LIST)
+# # librariesキーの要素をJSON_LIBRARIES変数にセット
+# file(JSON JSON_LIBRARIES GET ${JSON_DATA} libraries)
 
-file(JSON LIBRARIES_LENGTH LENGTH JSON_LIBRARIES)
-math(EXPR LIBRARIES_LAST_INDEX "${LIBRARIES_LENGTH} - 1")
+# file(JSON LIBRARIES_LENGTH LENGTH JSON_LIBRARIES)
+# math(EXPR LIBRARIES_LAST_INDEX "${LIBRARIES_LENGTH} - 1")
 
-foreach(index RANGE 0 ${LIBRARIES_LAST_INDEX})
-  file(JSON LIB_ITEM GET JSON_LIBRARIES ${index})
-  file(JSON LIB_NAME GET LIB_ITEM name)
-  file(JSON LIB_PATH GET LIB_ITEM path)
+# foreach(index RANGE 0 ${LIBRARIES_LAST_INDEX})
+#   file(JSON LIB_ITEM GET JSON_LIBRARIES ${index})
+#   file(JSON LIB_NAME GET LIB_ITEM name)
+#   file(JSON LIB_PATH GET LIB_ITEM path)
   
-  FetchContent_Declare(
-    ${LIB_NAME}
-    GIT_REPOSITORY ${LIB_PATH}
-    GIT_TAG main
-  )
-  FetchContent_MakeAvailable(${LIB_NAME})
-endforeach()
-
-
-# include(FetchContent)
-# # 全てのライブラリを走査
-# foreach(index RANGE 0 $<SUBTRACT:$<LENGHT:${JSON_LIBRARIES}>:1>)
-#   # ライブラリの名前を取得
-#   file(JSON LIB_NAME GET ${JSON_LIBRARIES} ${index} name)
-#   # ライブラリのGitパスを取得
-#   file(JSON LIB_PATH GET ${JSON_LIBRARIES} ${index} path)
 #   FetchContent_Declare(
 #     ${LIB_NAME}
 #     GIT_REPOSITORY ${LIB_PATH}
 #     GIT_TAG main
 #   )
 #   FetchContent_MakeAvailable(${LIB_NAME})
-
-#   # 専用のソリューションフォルダに隔離
-#   set_target_properties(gmock PROPERTIES FOLDER "Import/${LIB_NAME}")
-#   set_target_properties(gtest PROPERTIES FOLDER "Import/${LIB_NAME}")
-#   set_target_properties(gmock_main PROPERTIES FOLDER "Import/${LIB_NAME}")
-#   set_target_properties(gtest_main PROPERTIES FOLDER "Import/${LIB_NAME}")
 # endforeach()
-
-
 

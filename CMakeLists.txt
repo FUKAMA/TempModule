@@ -11,28 +11,10 @@
 
 cmake_minimum_required(VERSION 3.29.3)
 
-# # ビルドディレクトリを設定
-# set(GLOBAL_BIN_DIR "${CMAKE_BINARY_DIR}/build/bin")
-# set(GLOBAL_LIB_DIR "${CMAKE_BINARY_DIR}/build/lib")
-
-# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${GLOBAL_BIN_DIR}")
-# set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${GLOBAL_LIB_DIR}")
-# set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${GLOBAL_LIB_DIR}")
-
 # Visual Studio固有の設定
 if(MSVC)
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT test)
 endif()
-
-
-# set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CMAKE_BINARY_DIR}/custom_temp")
-# set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK "${CMAKE_BINARY_DIR}/custom_temp")
-
-# ビルド先のディレクトリを指定
-#---------------------------------
-
-# set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${GLOBAL_LIB_DIR}/liba")
-# set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${GLOBAL_BIN_DIR}/liba")
 
 
 
@@ -64,15 +46,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #-----------------------------
 
 # メインプロジェクトのディレクトリを保存
-# set(MAIN_PROJ_DIR "${PROJ_NAME}")
-# add_subdirectory("Cmake/main" ${MAIN_PROJ_DIR})
 add_subdirectory(main)
 
 # テストプロジェクトを作成
 #----------------------------
 
-# set(TEST_PROJ_DIR "test")
-# add_subdirectory("CMake/test" ${TEST_PROJ_DIR})
 add_subdirectory(test)
 
 # テストプロジェクトをスタートアッププロジェクトに設定
