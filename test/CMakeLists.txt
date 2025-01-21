@@ -55,10 +55,10 @@ TEST(_BeginTest, GoogleTest)
 ")
 
 # TESTS_FILESにsrc以下のファイルをすべて格納
-CollectFiles("${CMAKE_CURRENT_SOURCE_DIR}/test/src" TESTS_FILES)
+CollectFiles("${CMAKE_CURRENT_SOURCE_DIR}/src" TESTS_FILES)
 
 # srcディレクトリ以下の構成をフィルタに変換
-CreateFilters("${CMAKE_CURRENT_SOURCE_DIR}/test/src")
+CreateFilters("${CMAKE_CURRENT_SOURCE_DIR}/src")
 
 
 
@@ -69,7 +69,7 @@ add_executable(test ${TESTS_FILES})
 target_link_libraries(test gtest_main)
 
 # メインプロジェクトのインクルードディレクトリとソースのルートディレクトリをインクルードディレクトリに追加
-target_include_directories(test PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/main/include" "${CMAKE_SOURCE_DIR}/main/src" "${googletest_SOURCE_DIR}/googletest/include")
+target_include_directories(test PRIVATE "${CMAKE_SOURCE_DIR}/main/include" "${CMAKE_SOURCE_DIR}/main/src" "${googletest_SOURCE_DIR}/googletest/include")
 
 
 # テストターゲットの出力ディレクトリを指定
