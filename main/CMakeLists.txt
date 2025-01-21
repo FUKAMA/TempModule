@@ -30,8 +30,8 @@ endif()
 #------------------------------------
 
 # インクルード用のヘッダファイルが無ければ作成
-if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/main/include/${PROJ_NAME}.hpp")
-  file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/main/include/${PROJ_NAME}.hpp" 
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJ_NAME}.hpp")
+  file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJ_NAME}.hpp" 
   "// ${PROJ_NAME}のインクルード用ヘッダ
 
 #if defined(STATIC) // 静的ライブラリの場合は空にする
@@ -45,8 +45,8 @@ if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/main/include/${PROJ_NAME}.hpp")
 endif()
 
 # プリコンパイルヘッダが無ければ作成
-if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/main/src/pch.hpp")
-  file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/main/src/pch.hpp" 
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/pch.hpp")
+  file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/src/pch.hpp" 
 "//============================================
 // プリコンパイル済みヘッダ
 //============================================
@@ -54,22 +54,22 @@ if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/main/src/pch.hpp")
 // インクルード用ヘッダ
 #include \"${PROJ_NAME}.hpp\"
 ")
-  file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/main/src/pch.cpp" "#include \"pch.hpp\"\n")
+  file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/src/pch.cpp" "#include \"pch.hpp\"\n")
 endif()
 
 # pch.cppにプリコンパイル済みヘッダ作成フラグを設定
 set_source_files_properties(
-    "${CMAKE_CURRENT_SOURCE_DIR}/main/src/pch.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/pch.cpp"
     PROPERTIES COMPILE_FLAGS "/Ycpch.hpp"
 )
 
 # ソースとヘッダーファイルを収集
-CollectFiles("${CMAKE_CURRENT_SOURCE_DIR}/main/include" INCLUDE_FILES)
-CollectFiles("${CMAKE_CURRENT_SOURCE_DIR}/main/src" SRC_FILES)
+CollectFiles("${CMAKE_CURRENT_SOURCE_DIR}/include" INCLUDE_FILES)
+CollectFiles("${CMAKE_CURRENT_SOURCE_DIR}/src" SRC_FILES)
 
 # # フィルタ構造を作成
-CreateFilters("${CMAKE_CURRENT_SOURCE_DIR}/main/include")
-CreateFilters("${CMAKE_CURRENT_SOURCE_DIR}/main/src")
+CreateFilters("${CMAKE_CURRENT_SOURCE_DIR}/include")
+CreateFilters("${CMAKE_CURRENT_SOURCE_DIR}/src")
 
 # 
 #--------------------------------------------------
@@ -90,46 +90,49 @@ target_compile_definitions(${PROJ_NAME} PRIVATE
 
 # インクルードディレクトリをターゲットに設定
 target_include_directories(${PROJ_NAME} PUBLIC 
-  "${CMAKE_CURRENT_SOURCE_DIR}/main/include"
-  "${CMAKE_CURRENT_SOURCE_DIR}/main/src"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src"
 )
 
 # 必ず使用するヘッダを設定
 target_compile_options(${PROJ_NAME} PRIVATE 
   /FI"pch.hpp"
   /FI"${PROJ_NAME}.hpp"
-  )
+)
   
 # projDataのmodulesにある全てのモジュールとリンク
-#---------------------------------------------------------
-  
-# # リンクするライブラリの情報が格納されてるJsonファイルのパスを変数にセット
-# set(LIBS_JSON_PATH "${CMAKE_CURRENT_SOURCE_DIR}/projData.json")
-  
-# # Jsonファイルを読み込む
-# file(READ ${LIBS_JSON_PATH} JSON_CONTENT)
-  
-# # Jsonファイルを解析
-# file(JSON JSON_DATA PARSE ${JSON_CONTENT})
-  
-# # Jsonからライブラリの情報を取得
-# set(LIBRARIES_LIST)
-# # librariesキーの要素をJSON_LIBRARIES変数にセット
-# file(JSON JSON_LIBRARIES GET ${JSON_DATA} libraries)
+# ---------------------------------------------------------
 
-# file(JSON LIBRARIES_LENGTH LENGTH JSON_LIBRARIES)
-# math(EXPR LIBRARIES_LAST_INDEX "${LIBRARIES_LENGTH} - 1")
+# 一つ上のディレクトリを取得
+get_filename_component(PARENT_DIR "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
 
-# foreach(index RANGE 0 ${LIBRARIES_LAST_INDEX})
-#   file(JSON LIB_ITEM GET JSON_LIBRARIES ${index})
-#   file(JSON LIB_NAME GET LIB_ITEM name)
-#   file(JSON LIB_PATH GET LIB_ITEM path)
+# リンクするライブラリの情報が格納されてるJsonファイルのパスを変数にセット
+set(LIBS_JSON_PATH "${PARENT_DIR}/projData.json")
   
-#   FetchContent_Declare(
-#     ${LIB_NAME}
-#     GIT_REPOSITORY ${LIB_PATH}
-#     GIT_TAG main
-#   )
-#   FetchContent_MakeAvailable(${LIB_NAME})
-# endforeach()
+# Jsonファイルを読み込む
+file(READ ${LIBS_JSON_PATH} JSON_CONTENT)
+  
+# Jsonファイルを解析
+file(JSON JSON_DATA PARSE ${JSON_CONTENT})
+  
+# Jsonからライブラリの情報を取得
+set(LIBRARIES_LIST)
+# librariesキーの要素をJSON_LIBRARIES変数にセット
+file(JSON JSON_LIBRARIES GET ${JSON_DATA} libraries)
+
+file(JSON LIBRARIES_LENGTH LENGTH JSON_LIBRARIES)
+math(EXPR LIBRARIES_LAST_INDEX "${LIBRARIES_LENGTH} - 1")
+
+foreach(index RANGE 0 ${LIBRARIES_LAST_INDEX})
+  file(JSON LIB_ITEM GET JSON_LIBRARIES ${index})
+  file(JSON LIB_NAME GET LIB_ITEM name)
+  file(JSON LIB_PATH GET LIB_ITEM path)
+  
+  FetchContent_Declare(
+    ${LIB_NAME}
+    GIT_REPOSITORY ${LIB_PATH}
+    GIT_TAG main
+  )
+  FetchContent_MakeAvailable(${LIB_NAME})
+endforeach()
 
