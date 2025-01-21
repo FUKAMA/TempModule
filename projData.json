@@ -4,7 +4,7 @@
     "libraries": [
         {
             "name": "testlib",
-            "path": "s.git"
+            "path": "https://github.com/FUKAMA/NHOGE.git"
         }
     ]
 }
