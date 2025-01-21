@@ -1,0 +1,10 @@
+{
+    "ProjName": "HHOGEHG",
+    "ProjType": "STATIC",
+    "libraries": [
+        {
+            "name": "testlib",
+            "path": "s.git"
+        }
+    ]
+}
