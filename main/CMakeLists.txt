@@ -100,18 +100,18 @@ target_compile_options(${PROJ_NAME} PRIVATE
   /FI"${PROJ_NAME}.hpp"
 )
 
-include(FetchContent)
+# include(FetchContent)
 
-FetchContent_Declare(
-  ABCDEFG
-  GIT_REPOSITORY https://github.com/FUKAMA/ABCDEFG.git
-  GIT_TAG origin/main
-)
+# FetchContent_Declare(
+#   ABCDEFG
+#   GIT_REPOSITORY https://github.com/FUKAMA/ABCDEFG.git
+#   GIT_TAG origin/main
+# )
 
-FetchContent_GetProperties(ABCDEFG)
-if(NOT ABCDEFG_POPULATED)
-  FetchContent_Populate(ABCDEFG)
-  add_subdirectory(${ABCDEFG_SOURCE_DIR} ${ABCDEFG_BINARY_DIR})
-endif()
+# FetchContent_GetProperties(ABCDEFG)
+# if(NOT ABCDEFG_POPULATED)
+#   FetchContent_Populate(ABCDEFG)
+#   add_subdirectory(${ABCDEFG_SOURCE_DIR} ${ABCDEFG_BINARY_DIR})
+# endif()
 
-FetchContent_MakeAvailable(ABCDEFG)
+# FetchContent_MakeAvailable(ABCDEFG)
