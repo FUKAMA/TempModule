@@ -26,7 +26,7 @@ if(NOT DEFINED PROJ_NAME)
     set(PROJ_NAME "MyProject") # 引数がなければデフォルト値を設定
 endif()
 
-# プロジェクト名を設定
+# プロジェクトの種類を設定
 if(NOT DEFINED PROJ_TYPE)
     set(PROJ_TYPE STATIC) # 引数がなければデフォルト値を設定
 endif()
@@ -45,12 +45,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # メインプロジェクトを作成
 #-----------------------------
 
-# メインプロジェクトのディレクトリを保存
+# メインプロジェクトを作成しそのディレクトリを追加
 add_subdirectory(main)
 
 # テストプロジェクトを作成
 #----------------------------
 
+# テストプロジェクトを作成しそのディレクトリを追加
 add_subdirectory(test)
 
 # テストプロジェクトをスタートアッププロジェクトに設定

@@ -11,7 +11,9 @@
 
 cmake_minimum_required(VERSION 3.29.3)
 
+# include("../cmake/Utility.cmake")
 include("../cmake/Utility/FileFilter.cmake")
+
 
 # GoogleTestのインポート
 #---------------------------------------
@@ -36,8 +38,6 @@ set_target_properties(gtest_main PROPERTIES FOLDER "Import/GoogleTest")
 
 
 
-
-
 # 仮のテストファイルを生成
 file(WRITE ./src/BeginTest.cpp
 "#include <gtest/gtest.h>
@@ -53,10 +53,10 @@ TEST(_BeginTest, GoogleTest)
 ")
 
 # TESTS_FILESにsrc以下のファイルをすべて格納
-CollectFiles("${CMAKE_CURRENT_SOURCE_DIR}/src" TESTS_FILES)
+CollectFiles("${CMAKE_SOURCE_DIR}/test/src" TESTS_FILES)
 
 # srcディレクトリ以下の構成をフィルタに変換
-CreateFilters("${CMAKE_CURRENT_SOURCE_DIR}/src")
+CreateFilters("${CMAKE_SOURCE_DIR}/test/src")
 
 
 
@@ -65,9 +65,13 @@ CreateFilters("${CMAKE_CURRENT_SOURCE_DIR}/src")
 add_executable(test ${TESTS_FILES})
 # インポートしたGoogleTestのライブラリをテストプロジェクトにリンク
 target_link_libraries(test gtest_main)
+# インポートしたGoogleTestのヘッダを必ずインクルードするように変更
+# target_include_directories(test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # メインプロジェクトのインクルードディレクトリとソースのルートディレクトリをインクルードディレクトリに追加
 target_include_directories(test PRIVATE "${CMAKE_SOURCE_DIR}/main/include" "${CMAKE_SOURCE_DIR}/main/src" "${googletest_SOURCE_DIR}/googletest/include")
+
+# target_include_directories(test PRIVATE ${googletest_SOURCE_DIR}/googletest/include)
 
 
 # テストターゲットの出力ディレクトリを指定
@@ -89,7 +93,11 @@ RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/build/bin"
 LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/build/lib"
 ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/build/lib"
 )
-
+# set_target_properties(test PROPERTIES
+# RUNTIME_OUTPUT_DIRECTORY "${GLOBAL_TEST_BIN_DIR}"
+# LIBRARY_OUTPUT_DIRECTORY "${GLOBAL_TEST_LIB_DIR}"
+# ARCHIVE_OUTPUT_DIRECTORY "${GLOBAL_TEST_LIB_DIR}"
+# )
 
 # 必ず使用するヘッダを設定
 target_compile_options(test PRIVATE 

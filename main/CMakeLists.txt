@@ -110,7 +110,7 @@ FetchContent_Declare(
 
 FetchContent_GetProperties(ABCDEFG)
 if(NOT ABCDEFG_POPULATED)
-  include(FetchContent)_Populate(ABCDEFG)
+  FetchContent_Populate(ABCDEFG)
   add_subdirectory(${ABCDEFG_SOURCE_DIR} ${ABCDEFG_BINARY_DIR})
 endif()
 
