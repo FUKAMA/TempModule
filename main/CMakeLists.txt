@@ -99,40 +99,19 @@ target_compile_options(${PROJ_NAME} PRIVATE
   /FI"pch.hpp"
   /FI"${PROJ_NAME}.hpp"
 )
-  
-# # projDataのmodulesにある全てのモジュールとリンク
-# # ---------------------------------------------------------
 
-# # 一つ上のディレクトリを取得
-# get_filename_component(PARENT_DIR "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
+include(FetchContent)
 
-# # リンクするライブラリの情報が格納されてるJsonファイルのパスを変数にセット
-# set(LIBS_JSON_PATH "${PARENT_DIR}/projData.json")
-  
-# # Jsonファイルを読み込む
-# file(READ ${LIBS_JSON_PATH} JSON_CONTENT)
-  
-# # Jsonファイルを解析
-# file(JSON JSON_DATA PARSE ${JSON_CONTENT})
-  
-# # Jsonからライブラリの情報を取得
-# set(LIBRARIES_LIST)
-# # librariesキーの要素をJSON_LIBRARIES変数にセット
-# file(JSON JSON_LIBRARIES GET ${JSON_DATA} libraries)
+FetchContent_Declare(
+  ABCDEFG
+  GIT_REPOSITORY https://github.com/FUKAMA/ABCDEFG.git
+  GIT_TAG origin/main
+)
 
-# file(JSON LIBRARIES_LENGTH LENGTH JSON_LIBRARIES)
-# math(EXPR LIBRARIES_LAST_INDEX "${LIBRARIES_LENGTH} - 1")
+FetchContent_GetProperties(ABCDEFG)
+if(NOT ABCDEFG_POPULATED)
+  include(FetchContent)_Populate(ABCDEFG)
+  add_subdirectory(${ABCDEFG_SOURCE_DIR} ${ABCDEFG_BINARY_DIR})
+endif()
 
-# foreach(index RANGE 0 ${LIBRARIES_LAST_INDEX})
-#   file(JSON LIB_ITEM GET JSON_LIBRARIES ${index})
-#   file(JSON LIB_NAME GET LIB_ITEM name)
-#   file(JSON LIB_PATH GET LIB_ITEM path)
-  
-#   FetchContent_Declare(
-#     ${LIB_NAME}
-#     GIT_REPOSITORY ${LIB_PATH}
-#     GIT_TAG main
-#   )
-#   FetchContent_MakeAvailable(${LIB_NAME})
-# endforeach()
-
+FetchContent_MakeAvailable(ABCDEFG)
