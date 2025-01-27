@@ -39,7 +39,7 @@ if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJ_NAME}.hpp")
 #elif defined(${PROJ_NAME}_EXPORTS) && defined(SHARED) // 動的ライブラリをエクスポート
 #define ${PROJ_NAME}_API __declspec(dllexport)
 #else // 動的ライブラリをインポート
-#define ${PROJ_NAME}_API __declspec(dllimport)
+#define ${PROJ_NAME}_API /*__declspec(dllimport)*/
 #endif
 ")
 endif()
