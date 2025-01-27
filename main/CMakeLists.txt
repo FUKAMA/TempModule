@@ -100,6 +100,13 @@ target_compile_options(${PROJ_NAME} PRIVATE
   /FI"${PROJ_NAME}.hpp"
 )
 
+# ビルド結果を格納するディレクトリを指定
+set_target_properties(${PROJ_NAME} PROPERTIES
+RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/build/bin"
+LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/build/lib"
+ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/build/lib"
+)
+
 # include(FetchContent)
 
 # FetchContent_Declare(
