@@ -72,8 +72,8 @@ target_link_libraries(test gtest_main)
 target_include_directories(test PRIVATE "${CMAKE_SOURCE_DIR}/main/include" "${CMAKE_SOURCE_DIR}/main/src" "${googletest_SOURCE_DIR}/googletest/include")
 # メインプロジェクトとリンク
 target_link_libraries(test ${PROJ_NAME})
-target_link_directories(test PRIVATE "${CMAKE_BINARY_DIR}/lib")
-target_link_directories(test PRIVATE "${CMAKE_BINARY_DIR}/main/Debug")
+# target_link_directories(test PRIVATE "${CMAKE_BINARY_DIR}/lib")
+# target_link_directories(test PRIVATE "${CMAKE_BINARY_DIR}/main/Debug")
 
 
 
